@@ -1,0 +1,5 @@
+BurgerTestAPI.class
+BurgerOrder$Ingredient.class
+BurgerOrder.class
+BurgerOrder$IngredientsList.class
+BurgerUser.class

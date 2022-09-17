@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: BurgerUserCreateTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 2.064 s <<< FAILURE! - in BurgerUserCreateTest
+userCreateNoLoginTest(BurgerUserCreateTest)  Time elapsed: 0.197 s  <<< FAILURE!
+java.lang.AssertionError: User rejection failed. Response code is incorrect expected:<403> but was:<429>
+	at BurgerUserCreateTest.userCreateNoLoginTest(BurgerUserCreateTest.java:99)
+
+userCreateSuccessTest(BurgerUserCreateTest)  Time elapsed: 0.588 s  <<< FAILURE!
+java.lang.AssertionError: User creation is not successful. Login attempt is failed. expected:<200> but was:<429>
+	at BurgerUserCreateTest.userCreateSuccessTest(BurgerUserCreateTest.java:53)
+
