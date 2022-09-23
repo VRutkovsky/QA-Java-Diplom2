@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
@@ -60,6 +61,7 @@ public class BurgerUser {
         return this.isLoginSuccess;
     }
 
+    @Step("User Create")
     public ValidatableResponse apiUserCreate(boolean dropField) {
         String strLogin;
         String strPassword;
@@ -88,7 +90,7 @@ public class BurgerUser {
         } else {
             json = "{\"email\": \"" + strLogin + "\", \"password\": \"" + strPassword + "\", \"name\": \"" + strFirstName + "\"}";
         }
-        ValidatableResponse response = given().header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue).and().body(json).when().post(BurgerTestAPI.apiUserCreate).then();
+        ValidatableResponse response = given().header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue).and().body(json).when().post(BurgerEndpoints.apiUserCreate).then();
 
         if(response.extract().statusCode() == SC_OK) {
             setAccessToken(response);
@@ -109,13 +111,14 @@ public class BurgerUser {
         this.refreshToken = response.extract().path("refreshToken");
     }
 
+    @Step("User Login")
     public ValidatableResponse apiUserLogin(String strLogin, String strPassword){
         if(strLogin == null) {strLogin = "";}
         if(strPassword == null) {strPassword = "";}
 
         String json = "{\"email\": \"" + strLogin + "\", \"password\": \"" + strPassword + "\"}";
 
-        ValidatableResponse response = given().header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue).and().body(json).when().post(BurgerTestAPI.apiUserLogin).then();
+        ValidatableResponse response = given().header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue).and().body(json).when().post(BurgerEndpoints.apiUserLogin).then();
 
         if(response.extract().statusCode() == SC_OK) {
             setAccessToken(response);
@@ -128,35 +131,38 @@ public class BurgerUser {
         return apiUserLogin(login, password);
     }
 
+    @Step("User Delete")
     public ValidatableResponse apiUserDelete(){
         ValidatableResponse response = null;
         if(isLoginSuccess){
-            response = given().auth().oauth2(accessToken).and().when().delete(BurgerTestAPI.apiUserDelete).then();
+            response = given().auth().oauth2(accessToken).and().when().delete(BurgerEndpoints.apiUserDelete).then();
         }
         return response;
     }
 
+    @Step("User Update")
     public ValidatableResponse apiUserUpdate(String strEmail, String strName) {
 
         String json = "{\n    \"email\": \"" + strEmail + "\",\n    \"name:\": \"" + strName + "\"\n}";
 
         ValidatableResponse response = given()
                 .auth().oauth2(accessToken.substring(7))
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
                 .and().body(json)
-                .when().patch(BurgerTestAPI.apiUserUpdate)
+                .when().patch(BurgerEndpoints.apiUserUpdate)
                 .then();
 
         return response;
     }
+    @Step("User Update No Authorization")
     public ValidatableResponse apiUserUpdateNoAuth(String strEmail, String strName) {
 
         String json = "{\n    \"email\": \"" + strEmail + "\",\n    \"name:\": \"" + strName + "\"\n}";
 
         ValidatableResponse response = given()
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
                 .and().body(json)
-                .when().patch(BurgerTestAPI.apiUserUpdate)
+                .when().patch(BurgerEndpoints.apiUserUpdate)
                 .then();
 
         return response;

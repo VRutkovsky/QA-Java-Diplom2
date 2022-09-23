@@ -1,4 +1,4 @@
-BurgerTestAPI.class
+BurgerEndpoints.class
 BurgerOrder$Ingredient.class
 BurgerOrder.class
 BurgerOrder$IngredientsList.class

@@ -1,4 +1,4 @@
-import io.restassured.response.Response;
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 
 import java.util.Objects;
@@ -39,8 +39,8 @@ public class BurgerOrder {
 
     private void initIngresientsList(){
          IngredientsList ingredientsList = given()
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
-                .when().get(BurgerTestAPI.apiGetIngredients).as(IngredientsList.class);
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
+                .when().get(BurgerEndpoints.apiGetIngredients).as(IngredientsList.class);
 
         this.ingredients = ingredientsList.data;
     }
@@ -49,6 +49,7 @@ public class BurgerOrder {
         return this.ingredients;
     }
 
+    @Step("Order Create")
     public ValidatableResponse burgerOrderCreate(int numIngredients) {
         String strJson = "{\n    \"ingredients\": [";
         String separator;
@@ -61,9 +62,9 @@ public class BurgerOrder {
 
         ValidatableResponse response = given()
                 .auth().oauth2(accessToken.substring(7))
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
                 .and().body(strJson)
-                .when().post(BurgerTestAPI.apiOrderCreate)
+                .when().post(BurgerEndpoints.apiOrderCreate)
                 .then();
 
         if((response.extract().statusCode() == SC_OK) && (!Objects.isNull(response.extract().path("name")))){
@@ -76,11 +77,11 @@ public class BurgerOrder {
 
         return response;
     }
-
     public int getBurgerOrderNumber(){
         return this.burgerOrderNumber;
     }
 
+    @Step("Order Create No Auth")
     public ValidatableResponse burgerOrderCreateNoAuth(int numIngredients) {
         String strJson = "{\n    \"ingredients\": [";
         String separator;
@@ -92,14 +93,15 @@ public class BurgerOrder {
         strJson = strJson + "]\n}";
 
         ValidatableResponse response = given()
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
                 .and().body(strJson)
-                .when().post(BurgerTestAPI.apiOrderCreate)
+                .when().post(BurgerEndpoints.apiOrderCreate)
                 .then();
 
         return response;
     }
 
+    @Step("Order Create Invalid hash")
     public ValidatableResponse burgerOrderCreateInvalidHash(String strHash) {
         String strJson = "{\n    \"ingredients\": [";
 
@@ -109,9 +111,9 @@ public class BurgerOrder {
 
         ValidatableResponse response = given()
                 .auth().oauth2(accessToken.substring(7))
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
                 .and().body(strJson)
-                .when().post(BurgerTestAPI.apiOrderCreate)
+                .when().post(BurgerEndpoints.apiOrderCreate)
                 .then();
 
         this.burgerName = "";
@@ -120,22 +122,24 @@ public class BurgerOrder {
         return response;
     }
 
+    @Step("User Order List")
     public ValidatableResponse burgerUserOrderList(String accessToken) {
 
         ValidatableResponse response = given()
                 .auth().oauth2(accessToken.substring(7))
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
-                .when().get(BurgerTestAPI.apiUserOrdersList)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
+                .when().get(BurgerEndpoints.apiUserOrdersList)
                 .then();
 
         return response;
     }
 
+    @Step("Burger Order List no token")
     public ValidatableResponse burgerUserOrderList() {
 
         ValidatableResponse response = given()
-                .header(BurgerTestAPI.apiPostHeaderType, BurgerTestAPI.apiPostHeaderValue)
-                .when().get(BurgerTestAPI.apiUserOrdersList)
+                .header(BurgerEndpoints.apiPostHeaderType, BurgerEndpoints.apiPostHeaderValue)
+                .when().get(BurgerEndpoints.apiUserOrdersList)
                 .then();
 
         return response;

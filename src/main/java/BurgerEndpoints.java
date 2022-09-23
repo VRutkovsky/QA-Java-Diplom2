@@ -1,4 +1,4 @@
-public abstract class BurgerTestAPI {
+public abstract class BurgerEndpoints {
     public static final String apiBasicURL = "https://stellarburgers.nomoreparties.site";
     public static final String apiUserCreate = "/api/auth/register";
     public static final String apiUserLogin = "/api/auth/login";

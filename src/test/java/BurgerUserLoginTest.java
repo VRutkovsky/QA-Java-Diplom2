@@ -17,7 +17,7 @@ public class BurgerUserLoginTest {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = BurgerTestAPI.apiBasicURL;
+        RestAssured.baseURI = BurgerEndpoints.apiBasicURL;
     }
 
     @After

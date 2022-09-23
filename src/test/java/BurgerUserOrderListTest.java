@@ -7,10 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Objects;
-
 import static org.apache.http.HttpStatus.*;
-import static org.junit.Assert.*;
 
 public class BurgerUserOrderListTest {
     private BurgerUser burgerUser;
@@ -19,7 +16,7 @@ public class BurgerUserOrderListTest {
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = BurgerTestAPI.apiBasicURL;
+        RestAssured.baseURI = BurgerEndpoints.apiBasicURL;
     }
 
     @After
