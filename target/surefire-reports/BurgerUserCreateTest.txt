@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: BurgerUserCreateTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.676 s <<< FAILURE! - in BurgerUserCreateTest
+userCreateSuccessTest(BurgerUserCreateTest)  Time elapsed: 0.199 s  <<< FAILURE!
+java.lang.AssertionError: User creation failed. Response code is incorrect  expected:<200> but was:<429>
+	at BurgerUserCreateTest.userCreateSuccessTest(BurgerUserCreateTest.java:44)
+
